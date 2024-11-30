@@ -1,4 +1,4 @@
-High performance Stratum poolserver for equihash in Node.js. One instance of this software can startup and manage multiple coin
+High performance Stratum poolserver for Verushash in Node.js. One instance of this software can startup and manage multiple coin
 pools, each with their own daemon and stratum port :)
 
 #### Notice
@@ -38,13 +38,11 @@ Features
 * When started with a coin deamon that hasn't finished syncing to the network it shows the blockchain download progress and initializes once synced
 
 #### Hashing algorithms supported:
-* ✓ __Equihash 200,9
-* ✓ __Equihash 144,5
-* ✓ __Equihash 192,7
+* ✓ Verushash 2.2
 
 Requirements
 ------------
-* node v8.11
+* node v16+
 * coin daemon (preferably one with a relatively updated API and not some crapcoin :p)
 
 
@@ -54,107 +52,11 @@ Example Usage
 #### Install as a node module by cloning repository
 
 ```bash
-git clone https://github.com/s-nomp/node-stratum-pool.git node_modules/stratum-pool
+git clone https://github.com/VerusCoin/node-stratum-pool.git node_modules/stratum-pool
 npm update
 ```
 
 #### Module usage
-
-Create the configuration for your coin:
-
-Possible options for `algorithm`: *equihash*.
-
-```javascript
-var myCoin = {
-    "name": "Dogecoin",
-    "symbol": "DOGE",
-    "algorithm": "scrypt",
-    "nValue": 1024, //optional - defaults to 1024
-    "rValue": 1, //optional - defaults to 1
-    "txMessages": false, //optional - defaults to false,
-
-    /* Magic value only required for setting up p2p block notifications. It is found in the daemon
-       source code as the pchMessageStart variable.
-       For example, litecoin mainnet magic: http://git.io/Bi8YFw
-       And for litecoin testnet magic: http://git.io/NXBYJA */
-     "peerMagic": "fbc0b6db" //optional
-     "peerMagicTestnet": "fcc1b7dc" //optional
-};
-```
-
-If you are an equihash coin that doesn't have any founder's rewards,
-
-```javascript
-var myCoin = {
-    "name": "Zclassic",
-    "symbol": "ZCL",
-    "algorithm": "equihash",
-};
-```
-
-If you are using an equihash coin that has founder's rewards, you need to include details about the FR system,
-```javascript
-var myCoin = {
-    "name": "zcash_testnet",
-    "symbol": "taz",
-    "algorithm": "equihash",
-
-    "payFoundersReward": true,
-    "percentFoundersReward": 20,
-    "maxFoundersRewardBlockHeight": 849999,
-    "foundersRewardAddressChangeInterval": 17709.3125,
-	"vFoundersRewardAddress": [
-		"t2UNzUUx8mWBCRYPRezvA363EYXyEpHokyi",
-		"t2N9PH9Wk9xjqYg9iin1Ua3aekJqfAtE543",
-		"t2NGQjYMQhFndDHguvUw4wZdNdsssA6K7x2",
-		"t27ktmq1kbeCWiQ5TZ7w5npSzcdbBmTB7v6",
-		"t2GcBttAKD2WTHka8HyGc2dfvVTKYZUfHmJ",
-		"t2Q3vxWaD9LrdqUE8Xd9Ddjpr9pUQ2aGotK",
-		"t2TTfWDsYu998fHWzVP9Gns4fgxXXRi1Wzu",
-		"t2KS6R4MMWdSBMjLCiw2iMyhWGRQPmyRqDn",
-		"t2Q2ELrgotWv3Eec6LEtMMiiQ8dtW38u8Tj",
-		"t2AEgJA88vTWAKqxJDFUEJWyHUtQAZi5G1D",
-		"t2HCSdmpq1TQKksuwPQevwAzPTgfJ2rkMbG",
-		"t2HQCPFAUQaUdJWHPhg5pPBxit7inaJzubE",
-		"t2Fzqvq8Y9e6Mn3JNPb982aYsLmq4b5HmhH",
-		"t2HEz7YZQqDUgC5h4y2WSD3mWneqJNVRjjJ",
-		"t2GCR1SCk687Eeo5NEZ23MLsms7JjVWBgfG",
-		"t2KyiPR9Lztq2w1w747X6W4nkUMAGL8M9KN",
-		"t2UxymadyxSyVihmbq7S1yxw5dCBqJ1S4jT",
-		"t2AVeMy7fdmTcJhckqiKRG8B7F1vccEhSqU",
-		"t26m7LwihQzD2sH7ZVhYpPJM5j7kzwbfKW9",
-		"t2DgwUNTe7NxuyPU6fxsB5xJXap3E4yWXrN",
-		"t2U6funcXA11fC9SZehyvUL3rk3Vhuh7fzS",
-		"t284JhyS8LGM72Tx1porSqwrcq3CejthP1p",
-		"t29egu8QcpzKeLoPLqWS6QVMnUUPQdF6eNm",
-		"t29LqD9p9D3B26euBwFi6mfcWu8HPA38VNs",
-		"t28GsAMCxAyLy85XaasddDzaYFTtfewr86y",
-		"t2GV44QyaikQPLUfm6oTfZnw71LLjnR7gDG",
-		"t2U2QzNLQ1jtAu4L6xxVnRXLBsQpQvGRR2g",
-		"t2QKGr5PNan7nrwDgseyHMN9NFeeuUjCh8b",
-		"t2AfS8u6HwBeJpKpbuxztvRjupKQDXqnrwa",
-		"t2CTRQUViQd3CWMhnKhFnUHqDLUyTxmWhJs",
-		"t2CbM9EqszNURqh1UXZBXYhwp1R4GwEhWRE",
-		"t2LM7uYiAsKDU42GNSnMwDxbZ8s1DowQzYH",
-		"t2AgvT35LHR378AE3ouz6xKMhkTLHLJC6nD",
-		"t285EAQXUVyi4NMddJv2QqTrnv45GRMbP8e",
-		"t2EpMRCD5b8f2DCQ37npNULcpZhkjC8muqA",
-		"t2BCmWXrRPiCeQTpizSWKKRPM5X6PS7umDY",
-		"t2DN7X6wDFn5hYKBiBmn3Z98st419yaTVTH",
-		"t2QJj8HeCwQ6mHwqekxxDLZntYpZTHNU62t",
-		"t2QdHBR1Yciqn4j8gpS8DcQZZtYetKvfNj3",
-		"t2E5cpLA1ey5VNxFNcuopeQMq2rH2NHiPdu",
-		"t2EVRGtzjFAyz8CF8ndvLuiJu7qZUfDa93H",
-		"t2KoQDk3BSFadBkuaWdLwchFuQamzw9RE4L",
-		"t2FnR3yhTmuiejEJeu6qpidWTghRd1HpjLt",
-		"t2BAuBAAospDc9d1u5nNGEi6x4NRJBD2PQ2",
-		"t2RtKrLCGcyPkm4a4APg1YY9Wu2m4R2PgrB",
-		"t28aUbSteZzBq2pFgj1K1XNZRZP5mMMyakV",
-		"t2Urdy1ERfkvsFuy6Z4BkhvYGzWdmivfAFR",
-		"t2ADinR4JrvCMd4Q1XGALPajzFrirqvhED6"
-	]
-};
-```
 
 Create and start new pool with configuration options and authentication function
 

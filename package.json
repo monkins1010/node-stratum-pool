@@ -29,16 +29,15 @@
         "url": "https://github.com/VerusCoin/node-stratum-pool.git"
     },
     "dependencies": {
-        "async": "^2.6.1",
+        "async": "^3.2.6",
         "base58-native": "^0.1.4",
         "bignum": "^0.13.0",
-        "bitgo-utxo-lib": "git+https://github.com/VerusCoin/bitgo-utxo-lib.git",
-        "equihashverify": "git+https://github.com/s-nomp/equihashverify.git",
-        "verushash": "git+https://github.com/VerusCoin/verushash-node",
+        "@bitgo/utxo-lib": "git+https://github.com/VerusCoin/BitGoJS.git#utxo-lib-verus",
+        "verushash": "git+https://github.com/Monkins1010/verushash-node",
         "merkle-bitcoin": "^1.0.2",
-        "promise": "^8.0.1"
+        "promise": "^8.3.0"
     },
     "engines": {
-        "node": ">=8.11"
+        "node": ">=16.0.0"
     }
 }
