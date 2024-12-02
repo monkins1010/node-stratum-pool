@@ -33,11 +33,15 @@
         "base58-native": "^0.1.4",
         "bignum": "^0.13.0",
         "@bitgo/utxo-lib": "git+https://github.com/VerusCoin/BitGoJS.git#utxo-lib-verus",
+        "bitcoin-ops": "github:VerusCoin/bitcoin-ops#master",
         "verushash": "git+https://github.com/Monkins1010/verushash-node",
         "merkle-bitcoin": "^1.0.2",
         "promise": "^8.3.0"
     },
     "engines": {
         "node": ">=16.0.0"
+    },
+    "overrides": {
+        "bitcoin-ops": "github:VerusCoin/bitcoin-ops#master"
     }
 }
